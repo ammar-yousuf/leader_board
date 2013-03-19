@@ -5,7 +5,12 @@ class Score < ActiveRecord::Base
   after_create :add_to_leaderboard
 
   def add_to_leaderboard
+    # Add the score to a sorted set with a unique redis_key
     $redis.zadd self.leader_board.redis_key(:scores), self.points, self.id
+
+    # Publish the new score to the leader_boards channel
+    # This will then push the message to the websocket that will update the scores 
+    # list on the page.
     $redis.publish 'leader_boards:channel', "{\"leader_board_id\" : #{self.leader_board.id}}"
   end
   
