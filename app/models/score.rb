@@ -2,6 +2,7 @@ class Score < ActiveRecord::Base
   belongs_to :leader_board
   attr_accessible :leader_board_id, :player, :points
   
+  # After each score is created we automatically add it to the leaderboard.
   after_create :add_to_leaderboard
 
   def add_to_leaderboard
