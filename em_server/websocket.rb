@@ -1,5 +1,6 @@
 require 'redis'
 require 'em-websocket'
+require 'logger'
  
 SOCKETS = []
 @redis = Redis.new(:host => '127.0.0.1', :post => 6379)
